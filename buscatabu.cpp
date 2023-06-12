@@ -4,8 +4,8 @@
 #include <ctime>
 using namespace std;
 
-const int MAX_ITERATIONS = 1000;
-const int TAMANHO_TABU = 5;
+const int MAX_ITERATIONS = 5;
+const int TAMANHO_TABU = 4;
 
 // Estrutura para representar uma solução
 struct Solucao {
@@ -109,52 +109,12 @@ Solucao buscaTabu(int numAreas, const vector<int>& investimentos, const vector<i
     return melhorSolucao;
 }
 
-// Função para realizar busca local
-Solucao buscaLocal(const Solucao& solucaoInicial, const vector<int>& investimentos, const vector<int>& retornos, int orcamento) {
-    Solucao solucaoAtual = solucaoInicial;
-    Solucao melhorSolucao = solucaoInicial;
-
-    while (true) {
-        vector<Solucao> vizinhos;
-        for (int i = 0; i < solucaoAtual.areasSelecionadas.size(); i++) {
-            Solucao vizinho = solucaoAtual;
-            vizinho.areasSelecionadas[i] = 1 - vizinho.areasSelecionadas[i]; // Inverte a área selecionada
-            vizinho.valorObjetivo = avaliarObjetivo(vizinho.areasSelecionadas, retornos);
-            if (avaliarObjetivo(vizinho.areasSelecionadas, investimentos) <= orcamento) {
-                vizinhos.push_back(vizinho);
-            }
-        }
-
-        if (vizinhos.empty()) {
-            break;
-        }
-
-        Solucao melhorVizinho = vizinhos[0];
-        for (const Solucao& vizinho : vizinhos) {
-            if (vizinho.valorObjetivo > melhorVizinho.valorObjetivo) {
-                melhorVizinho = vizinho;
-            }
-        }
-
-        if (melhorVizinho.valorObjetivo <= solucaoAtual.valorObjetivo) {
-            break;
-        }
-
-        solucaoAtual = melhorVizinho;
-        if (melhorVizinho.valorObjetivo > melhorSolucao.valorObjetivo) {
-            melhorSolucao = melhorVizinho;
-        }
-    }
-
-    return melhorSolucao;
-}
-
 int main() {
     // Dados do problema
     int numAreas = 4;
-    vector<int> investimentos = {250000, 350000, 200000, 400000};
-    vector<int> retornos = {300000, 150000, 200000, 500000};
-    int orcamento = 1000000;
+    vector<int> investimentos = {250000, 150000, 200000, 400000};
+    vector<int> retornos = {300000, 350000, 200000, 500000};
+    int orcamento = 750000;
 
     // Executar busca tabu
     Solucao melhorSolucao = buscaTabu(numAreas, investimentos, retornos, orcamento);
@@ -163,8 +123,8 @@ int main() {
     //Solucao solucaoOtima = buscaLocal(melhorSolucao, investimentos, retornos, orcamento);
 
     // Imprimir a solução encontrada
-    cout << "Melhor solução encontrada:" << endl;
-    cout << "Áreas selecionadas: ";
+    cout << "Melhor solucao encontrada:" << endl;
+    cout << "Areas selecionadas: ";
     for (int i = 0; i < numAreas; i++) {
         cout << melhorSolucao.areasSelecionadas[i] << " ";
     }
