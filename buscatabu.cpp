@@ -119,9 +119,6 @@ int main() {
     // Executar busca tabu
     Solucao melhorSolucao = buscaTabu(numAreas, investimentos, retornos, orcamento);
 
-    // Executar busca local a partir da melhor solução encontrada pela busca tabu
-    //Solucao solucaoOtima = buscaLocal(melhorSolucao, investimentos, retornos, orcamento);
-
     // Imprimir a solução encontrada
     cout << "Melhor solucao encontrada:" << endl;
     cout << "Areas selecionadas: ";
